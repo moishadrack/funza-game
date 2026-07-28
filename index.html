@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funza - Learn Kenyan Languages!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- HOME SCREEN - LANGUAGE SELECT -->
+        <div id="screen-home" class="screen active">
+            <div class="home-content">
+                <div class="logo-area">
+                    <div class="logo-emoji">🌍</div>
+                    <h1 class="game-title">Funza!</h1>
+                    <p class="game-subtitle">Learn Kenyan Languages the Fun Way</p>
+                </div>
+
+                <div class="category-select">
+                    <h2>Choose a Language:</h2>
+                    <div class="language-grid" id="language-grid">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY SELECT SCREEN -->
+        <div id="screen-categories" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="goHome()">← Back</button>
+                <div class="language-badge" id="language-badge">🇰🇪 Kiswahili</div>
+                <div class="score-display">
+                    <span class="star">⭐</span>
+                    <span id="total-stars">0</span>
+                </div>
+            </div>
+            <div class="modes-content">
+                <h2 class="section-title" id="language-title">Choose a Topic</h2>
+                <div class="category-grid">
+                    <button class="category-btn" data-category="animals" onclick="selectCategory('animals')">
+                        <span class="cat-emoji">🐄</span>
+                        <span class="cat-name">Animals</span>
+                    </button>
+                    <button class="category-btn" data-category="food" onclick="selectCategory('food')">
+                        <span class="cat-emoji">🍚</span>
+                        <span class="cat-name">Food</span>
+                    </button>
+                    <button class="category-btn" data-category="family" onclick="selectCategory('family')">
+                        <span class="cat-emoji">👨‍👩‍👧</span>
+                        <span class="cat-name">Family</span>
+                    </button>
+                    <button class="category-btn" data-category="colors" onclick="selectCategory('colors')">
+                        <span class="cat-emoji">🎨</span>
+                        <span class="cat-name">Colors</span>
+                    </button>
+                    <button class="category-btn" data-category="numbers" onclick="selectCategory('numbers')">
+                        <span class="cat-emoji">🔢</span>
+                        <span class="cat-name">Numbers</span>
+                    </button>
+                    <button class="category-btn" data-category="body" onclick="selectCategory('body')">
+                        <span class="cat-emoji">🦶</span>
+                        <span class="cat-name">Body</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME MODE SELECT -->
+        <div id="screen-modes" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="showCategories()">← Back</button>
+                <div class="language-badge" id="mode-lang-badge">🇰🇪 Kiswahili</div>
+                <div class="score-display">
+                    <span class="star">⭐</span>
+                    <span id="mode-stars">0</span>
+                </div>
+            </div>
+            <div class="modes-content">
+                <h2 class="section-title" id="category-title">Animals</h2>
+                <div class="modes-grid">
+                    <button class="mode-btn" onclick="startGame('flashcard')">
+                        <span class="mode-emoji">🃏</span>
+                        <span class="mode-name">Flashcards</span>
+                        <span class="mode-desc">Tap to learn words</span>
+                    </button>
+                    <button class="mode-btn" onclick="startGame('quiz')">
+                        <span class="mode-emoji">❓</span>
+                        <span class="mode-name">Quiz</span>
+                        <span class="mode-desc">Pick the right answer</span>
+                    </button>
+                    <button class="mode-btn" onclick="startGame('match')">
+                        <span class="mode-emoji">🔗</span>
+                        <span class="mode-name">Match</span>
+                        <span class="mode-desc">Pair the words</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FLASHCARD SCREEN -->
+        <div id="screen-flashcard" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="showModes()">← Back</button>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="flashcard-progress"></div>
+                </div>
+                <div class="score-display">
+                    <span class="star">⭐</span>
+                    <span id="flashcard-stars">0</span>
+                </div>
+            </div>
+            <div class="flashcard-area">
+                <div class="flashcard" id="flashcard" onclick="flipCard()">
+                    <div class="flashcard-inner" id="flashcard-inner">
+                        <div class="flashcard-front">
+                            <span class="card-emoji" id="card-emoji">🐄</span>
+                            <p class="card-word" id="card-english">Cow</p>
+                            <p class="card-hint">Tap to flip!</p>
+                        </div>
+                        <div class="flashcard-back">
+                            <span class="card-emoji" id="card-emoji-back">🐄</span>
+                            <p class="card-word local-word" id="card-local">Ng'ombe</p>
+                            <button class="sound-btn" onclick="event.stopPropagation(); speakWord()">🔊 Listen</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard-nav">
+                    <button class="nav-btn" onclick="prevCard()">← Prev</button>
+                    <button class="sound-btn-large" onclick="speakWord()">🔊</button>
+                    <button class="nav-btn" onclick="nextCard()">Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QUIZ SCREEN -->
+        <div id="screen-quiz" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="showModes()">← Back</button>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="quiz-progress"></div>
+                </div>
+                <div class="score-display">
+                    <span class="star">⭐</span>
+                    <span id="quiz-stars">0</span>
+                </div>
+            </div>
+            <div class="quiz-area">
+                <div class="quiz-question">
+                    <p class="quiz-instruction" id="quiz-instruction">What is the Swahili word for:</p>
+                    <p class="quiz-word" id="quiz-word">Cow</p>
+                    <button class="sound-btn" onclick="speakQuizWord()">🔊 Listen</button>
+                </div>
+                <div class="quiz-options" id="quiz-options">
+                </div>
+                <div class="quiz-feedback" id="quiz-feedback"></div>
+            </div>
+        </div>
+
+        <!-- MATCH SCREEN -->
+        <div id="screen-match" class="screen">
+            <div class="top-bar">
+                <button class="back-btn" onclick="showModes()">← Back</button>
+                <div class="timer-display" id="match-timer">⏱ 0:00</div>
+                <div class="score-display">
+                    <span class="star">⭐</span>
+                    <span id="match-stars">0</span>
+                </div>
+            </div>
+            <div class="match-area">
+                <div class="match-columns">
+                    <div class="match-col" id="match-col-left">
+                    </div>
+                    <div class="match-col" id="match-col-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESULTS SCREEN -->
+        <div id="screen-results" class="screen">
+            <div class="results-content">
+                <div class="results-emoji" id="results-emoji">🎉</div>
+                <h2 class="results-title" id="results-title">Great Job!</h2>
+                <p class="results-score" id="results-score">You earned 5 stars!</p>
+                <div class="results-stars" id="results-stars">
+                </div>
+                <div class="results-buttons">
+                    <button class="result-btn play-again" onclick="replayGame()">Play Again</button>
+                    <button class="result-btn choose-mode" onclick="showModes()">Choose Mode</button>
+                    <button class="result-btn home" onclick="goHome()">Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="words.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
